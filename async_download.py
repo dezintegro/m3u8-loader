@@ -9,8 +9,8 @@ def group(iterable, count):
     return zip_longest(*[iter(iterable)] * count)
 
 
-async def fetch(session, url):
-    filename = 'tmp/' + url.split('/')[-1]
+async def fetch(session, url, tmp_folder):
+    filename = tmp_folder + url.split('/')[-1]
     async with session.get(url) as response:
         with open(filename, 'wb') as f_handle:
             while True:
@@ -19,14 +19,14 @@ async def fetch(session, url):
                 if not data:
                     break
                 f_handle.write(data)
-        print('Загрузка части {} завершена'.format(filename))
+        # print('Загрузка части {} завершена'.format(filename))
         return await response.release()
 
 
-async def fetch_all(session, urls, loop):
+async def fetch_all(session, urls, tmp_folder):
     errors = []
     results = await asyncio.gather(
-        *[fetch(session, url) for url in urls],
+        *[fetch(session, url, tmp_folder) for url in urls],
         return_exceptions=True  # default is false, that would raise
     )
 
@@ -36,7 +36,7 @@ async def fetch_all(session, urls, loop):
         if isinstance(results[idx], Exception):
             e = results[idx]
             errors.append(url)
-    print('Ошибок: {}'.format(len(errors)))
+    # print('Ошибок: {}'.format(len(errors)))
 
     return results, errors
 
