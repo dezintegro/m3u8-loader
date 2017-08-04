@@ -4,7 +4,7 @@ import m3u8
 
 
 MAX_CONNECTIONS = 100
-resolution_index = 1
+resolution_index = -1
 infile = 'merged.ts'
 outfile = 'merged.mp4'
 

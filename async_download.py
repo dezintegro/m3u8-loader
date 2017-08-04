@@ -3,6 +3,28 @@ import asyncio
 from itertools import zip_longest
 
 
+# Print iterations progress
+def print_progress_bar(iteration, total, prefix='', suffix='', decimals=1, length=100, fill='█'):
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        length      - Optional  : character length of bar (Int)
+        fill        - Optional  : bar fill character (Str)
+    """
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filled = int(length * iteration // total)
+    bar = fill * filled + '-' * (length - filled)
+    print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end='\r')
+    # Print New Line on Complete
+    if iteration == total:
+        print()
+
+
 def group(iterable, count):
     """ Группировка элементов последовательности по count элементов """
 
@@ -10,6 +32,8 @@ def group(iterable, count):
 
 
 async def fetch(session, url, tmp_folder):
+    if not url:
+        return
     filename = tmp_folder + url.split('/')[-1]
     async with session.get(url) as response:
         with open(filename, 'wb') as f_handle:
