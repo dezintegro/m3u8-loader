@@ -72,7 +72,6 @@ class M3U8Loader:
                     print('Не удалось загрузить {}'.format(len(errors)))
         print('Загрузка завершена за {} сек.'.format(int(time() - started)))
 
-
     def _merge(self):
         started = time()
         files = [self.tmp_folder + file.split('/')[-1] for file in os.listdir(self.tmp_folder)]
@@ -95,15 +94,4 @@ class M3U8Loader:
 
 
 if __name__ == '__main__':
-    # Process(target=download_video, args=())
-    # [download_video('playlists/{}'.format(file), '{}.ts'.format(file)) for file in os.listdir('playlists')[2:]]
-    s = M3U8Loader('lection3.m3u8')
-    r = s.get_resolutions()
-    print(r)
-    s.set_resolution(5)
-    print(s.resolution_index)
-    # s.download()
-    s._merge()
-    # s = M3U8Loader('master.m3u8')
-    # r = s.get_resolutions()
-    # print(r)
+    pass
